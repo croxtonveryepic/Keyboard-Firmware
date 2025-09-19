@@ -515,10 +515,11 @@ behaviors {
             display-name = "Base";
             bindings = <
 &kp ESCAPE    &kp N1           &kp N2     &kp N3    &kp N4     &kp N5     &kp C_MUTE                                                               &kp C_PLAY_PAUSE  &kp N6     &kp N7  &kp N8    &kp N9       &kp N0              &kp DELETE
-&mo 5         &kp PRINTSCREEN  &kp F      &kp M     &kp H      &en_dash      &kp C_VOLUME_UP                                                          &kp C_NEXT        &em_dash      &kp K   &kp W     &kp G        &kp K_CONTEXT_MENU  &mo 5  
-&kp Z         &left_pinky LGUI N &left_ring1 LALT S &left_middy LCTRL T &left_index LSHFT R      &kp Q      &kp C_VOLUME_DOWN  &kp EQUAL  &kp HOME       &kp END        &kp SQT      &kp C_PREV        &kp J      &right_index LSHFT A &right_middy LCTRL E &right_ring1 LALT C &right_pinky LGUI I               &kp X
-&kp LSHFT     &kp B            &kp V      &kp D     &kp L      &kp LC(C)                                &kp GRAVE      &kp SEMICOLON                                 &kp LC(V)  &kp O   &kp U     &kp P        &kp Y               &kp RSHFT
-&kp CAPSLOCK  &kp PERIOD       &kp SLASH  &kp LEFT  &kp RIGHT             &lt 1 TAB        &lt 4 SPACE  &kp MINUS      &kp COMMA       &lt 2 BACKSPACE   &lt 3 ENTER             &kp UP  &kp DOWN  &kp PAGE_UP  &kp PAGE_DOWN       &tog 4
+&mo 5         &kp PRINTSCREEN  &kp F      &kp M     &kp H      &kp EQUAL      &kp C_VOLUME_UP                                                          &kp C_NEXT        &kp MINUS      &kp K   &kp W     &kp G        &kp K_CONTEXT_MENU  &mo 5  
+&kp Z         &left_pinky LGUI N &left_ring1 LALT S &left_middy LCTRL T &left_index LSHFT R      &kp Q      &kp C_VOLUME_DOWN  &kp SLASH
+  &kp HOME       &kp END        &kp PERIOD      &kp C_PREV        &kp J      &right_index LSHFT A &right_middy LCTRL E &right_ring1 LALT C &right_pinky LGUI I               &kp X
+&kp LSHFT     &kp B            &kp V      &kp D     &kp L      &en_dash                                &kp GRAVE      &kp SEMICOLON                                 &em_dash  &kp O   &kp U     &kp P        &kp Y               &kp RSHFT
+&kp CAPSLOCK  &kp HOME       &kp END  &kp LEFT  &kp RIGHT             &lt 1 TAB        &lt 4 SPACE  &kp SQT      &kp COMMA       &lt 2 BACKSPACE   &lt 3 ENTER             &kp UP  &kp DOWN  &kp PAGE_UP  &kp PAGE_DOWN       &tog 4
             >;
         };
 
