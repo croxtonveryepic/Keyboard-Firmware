@@ -513,7 +513,7 @@ behaviors {
             bindings = <
 &kp ESCAPE    &kp N1           &kp N2     &kp N3    &kp N4     &kp N5     &kp C_MUTE                                                               &kp C_PLAY_PAUSE  &kp N6     &kp N7  &kp N8    &kp N9       &kp N0              &kp DELETE
 &mo 5         &kp PRINTSCREEN  &kp F      &kp M     &kp H      &kp D      &kp C_VOLUME_UP                                                          &kp C_NEXT        &kp D      &kp K   &kp W     &kp G        &kp K_CONTEXT_MENU  &none
-&kp Z         &kp N            &kp S      &kp T     &kp R      &kp Q      &kp C_VOLUME_DOWN  &kp EQUAL  &kp HOME       &kp END        &kp SQT      &kp C_PREV        &kp J      &kp A   &kp E     &kp C        &kp I               &kp X
+&kp Z         &left_pinky LGUI N &left_ring1 LALT S &left_middy LCTRL T &left_index LSHFT R      &kp Q      &kp C_VOLUME_DOWN  &kp EQUAL  &kp HOME       &kp END        &kp SQT      &kp C_PREV        &kp J      &right_index LSHFT A &right_middy LCTRL E &right_ring1 LALT C &right_pinky LGUI I               &kp X
 &kp LSHFT     &kp B            &kp V      &kp D     &kp L      &en_dash                                &kp GRAVE      &kp SEMICOLON                                 &em_dash  &kp O   &kp U     &kp P        &kp Y               &kp RSHFT
 &kp CAPSLOCK  &kp PERIOD       &kp SLASH  &kp LEFT  &kp RIGHT             &lt 4 SPACE        &lt 1 TAB  &kp MINUS      &kp COMMA      &lt 3 ENTER  &lt 2 BACKSPACE              &kp UP  &kp DOWN  &kp PAGE_UP  &kp PAGE_DOWN       &mo 0
             >;
