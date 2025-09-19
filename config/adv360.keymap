@@ -68,11 +68,11 @@
 
         Mouse_Keys {
             bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans  &trans                                      &trans   &trans        &trans          &trans     &trans     &trans   &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans                                      &trans   &trans        &trans          &trans     &trans     &trans   &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans      &trans  &trans  &trans   &kp F17       &mkp LCLK       &mkp RCLK  &mkp MCLK  &kp F24  &trans
-&trans  &trans  &trans  &trans  &trans  &trans                  &trans      &trans                   &msc SCRL_UP  &msc SCRL_DOWN  &trans     &trans     &trans   &trans
-&trans  &trans  &trans  &trans  &trans          &trans  &trans  &trans      &trans  &trans  &kp F14                &trans          &trans     &trans     &trans   &trans
+&trans  &trans    &trans    &trans     &trans     &trans  &trans                                      &trans   &trans        &trans          &trans     &trans     &trans   &trans
+&trans  &trans    &trans    &trans     &trans     &trans  &trans                                      &trans   &trans        &trans          &trans     &trans     &trans   &trans
+&trans  &kp LGUI  &kp LALT  &kp LCTRL  &kp LSHFT  &trans  &trans  &trans  &trans      &trans  &trans  &trans   &kp F17       &mkp LCLK       &mkp RCLK  &mkp MCLK  &kp F24  &trans
+&trans  &trans    &trans    &kp LC(C)  &kp LC(V)  &trans                  &trans      &trans                   &msc SCRL_UP  &msc SCRL_DOWN  &trans     &trans     &trans   &trans
+&trans  &trans    &trans    &trans     &trans             &trans  &trans  &trans      &trans  &trans  &kp F14                &trans          &trans     &trans     &trans   &trans
             >;
         };
 
