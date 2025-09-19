@@ -38,20 +38,20 @@
         keypad {
             bindings = <
 &trans  &trans      &trans         &trans       &trans           &trans  &trans                                         &trans           &trans  &trans           &trans           &trans           &trans        &trans
-&trans  &trans      &kp TILDE      &kp D        &kp UNDER        &trans  &trans                                         &trans           &trans  &kp KP_NUMBER_7  &kp KP_NUMBER_8  &kp KP_NUMBER_9  &trans        &trans
+&trans  &trans      &kp TILDE      &kp D        &kp CARET        &trans  &trans                                         &trans           &trans  &kp KP_NUMBER_7  &kp KP_NUMBER_8  &kp KP_NUMBER_9  &trans        &trans
 &trans  &kp LGUI    &kp LALT       &kp LCTRL    &kp LSHFT        &trans  &trans  &trans  &trans      &trans  &trans     &trans           &trans  &kp KP_NUMBER_4  &kp KP_NUMBER_5  &kp KP_NUMBER_6  &kp PERCENT   &kp KP_ENTER
 &trans  &kp COLON   &kp KP_MINUS   &kp KP_PLUS  &kp KP_ASTERISK  &trans                  &trans      &trans                              &trans  &kp KP_NUMBER_1  &kp KP_NUMBER_2  &kp KP_NUMBER_3  &kp KP_EQUAL  &trans
-&trans  &kp KP_DOT  &kp KP_DIVIDE  &trans       &trans                   &trans  &trans  &trans      &trans  &kp SPACE  &kp KP_NUMBER_0          &trans           &trans           &trans           &trans        &trans
+&trans  &kp KP_DOT  &kp KP_DIVIDE  &trans       &trans                   &trans  &trans  &trans      &trans  &kp SPACE  &kp KP_NUMBER_0          &kp DOLLAR       &trans           &trans           &trans        &trans
             >;
         };
 
         Symbols {
             bindings = <
-&kp             &kp               &kp                &kp                    &kp               &kp  &kp                          &kp  &kp  &kp        &kp        &kp       &kp       &kp
-&kp             &kp               &kp                &kp LESS_THAN          &kp GREATER_THAN  &kp  &kp                          &kp  &kp  &kp        &kp        &kp       &kp       &kp
-&kp             &kp               &kp LEFT_BRACKET   &kp LEFT_PARENTHESIS   &kp LEFT_BRACE    &kp  &kp  &kp  &kp      &kp  &kp  &kp  &kp  &kp LSHFT  &kp LCTRL  &kp LALT  &kp LGUI  &kp
-&kp LEFT_SHIFT  &kp LESS_THAN     &kp LEFT_BRACKET   &kp LEFT_PARENTHESIS   &kp LEFT_BRACE    &kp            &kp      &kp            &kp  &kp        &kp        &kp       &kp       &kp LEFT_SHIFT
-&kp             &kp GREATER_THAN  &kp RIGHT_BRACKET  &kp RIGHT_PARENTHESIS  &kp RIGHT_BRACE        &kp  &kp  &kp      &kp  &kp  &kp       &kp        &kp        &kp       &kp       &kp
+&trans  &trans            &trans             &trans                 &trans           &trans  &trans                                      &trans  &trans  &trans          &trans       &trans             &trans     &trans
+&trans  &trans            &kp QUESTION       &kp PIPE               &kp BACKSLASH    &trans  &trans                                      &trans  &trans  &kp UNDERSCORE  &kp PERCENT  &kp DOUBLE_QUOTES  &trans     &trans
+&kp AT  &kp DOLLAR        &kp POUND          &kp AMPERSAND          &kp EXCLAMATION  &trans  &trans  &trans  &trans      &trans  &trans  &trans  &trans  &kp LSHFT       &kp LCTRL    &kp LALT           &kp LGUI   &kp TILDE
+&trans  &kp LESS_THAN     &kp LEFT_BRACKET   &kp LEFT_PARENTHESIS   &kp LEFT_BRACE   &trans                  &trans      &trans                  &trans  &kp CARET       &kp STAR     &kp PLUS           &kp COLON  &trans
+&trans  &kp GREATER_THAN  &kp RIGHT_BRACKET  &kp RIGHT_PARENTHESIS  &kp RIGHT_BRACE          &trans  &trans  &trans      &trans  &trans  &trans          &trans          &trans       &trans             &trans     &trans
             >;
         };
 
