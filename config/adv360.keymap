@@ -518,13 +518,13 @@ behaviors {
 &mo 3         &kp NUMBER_1  &kp P    &kp L     &kp K      &kp Q   &kp C_VOLUME_UP                                                                       &kp C_NEXT        &kp G    &kp F   &kp A       &kp U        &kp N0         &mo 3
 &kp X         &left_pinky LGUI S         &left_ring1 LALT N    &left_middy LCTRL R     &left_index LSHFT T      &kp M   &kp C_VOLUME_DOWN  &kp SLASH  &kp LEFT_BRACKET      &kp RIGHT_BRACKET  &kp GRAVE      &kp C_PREV        &kp Y   &right_index LSHFT C &right_middy LCTRL O &right_ring1 LALT I &right_pinky LGUI E          &kp J
 &caps_word    &kp Z         &kp B    &kp H     &kp D      &kp V                                 &kp MINUS             &kp EQUAL                                           &kp SQT  &kp W   &kp PERIOD  &kp COMMA    &kp SEMICOLON  &kp BACKSLASH
-&kp CAPSLOCK  &kp HOME      &kp END  &kp LEFT  &kp RIGHT          &lt 1 SPACE        &lt 2 TAB  &kp ESCAPE            &kp DELETE         &kp BACKSPACE  &kp ENTER                  &kp UP  &kp DOWN    &kp PAGE_UP  &kp PAGE_DOWN  &mo 0
+&kp CAPSLOCK  &kp HOME      &kp END  &kp LEFT  &kp RIGHT          &lt 1 TAB        &lt 2 SPACE  &kp ESCAPE            &kp DELETE         &kp BACKSPACE  &kp ENTER                  &kp UP  &kp DOWN    &kp PAGE_UP  &kp PAGE_DOWN  &none
             >;
         };
 
         Function_Keys {
             bindings = <
-&trans  &trans        &trans        &trans     &trans          &trans  &trans                                      &trans  &trans   &trans   &trans  &trans  &trans   &trans
+&trans  &trans        &trans        &trans     &trans          &trans  &trans                                      &kp KP_NUMLOCK  &trans   &trans   &trans  &trans  &trans   &trans
 &trans  &trans        &trans        &trans     &trans          &trans  &trans                                      &trans  &kp F1   &kp F2   &kp F3  &kp F4  &trans   &trans
 &trans  &kp LEFT_GUI  &kp LEFT_ALT  &kp LCTRL  &kp LEFT_SHIFT  &trans  &trans  &trans  &trans      &trans  &trans  &trans  &kp F5   &kp F6   &kp F7  &kp F8  &kp F9   &kp F10
 &trans  &trans        &trans        &trans     &trans          &trans                  &trans      &trans                  &kp F11  &kp F12  &kp F13  &kp F14  &kp F15   &kp F16
@@ -537,7 +537,7 @@ behaviors {
 &trans  &trans    &trans    &trans     &trans     &trans  &trans                                      &trans   &trans        &trans          &trans     &trans     &trans   &trans
 &trans  &trans    &trans    &trans     &trans     &trans  &trans                                      &trans   &trans        &trans          &trans     &trans     &trans   &trans
 &trans  &kp LGUI  &kp LALT  &kp LCTRL  &kp LSHFT  &trans  &trans  &trans  &trans      &trans  &trans  &trans   &kp F22       &mkp LCLK       &mkp RCLK  &mkp MCLK  &kp F23  &kp PRINTSCREEN
-&trans  &trans    &trans    &kp LC(C)  &kp LC(V)  &trans                  &trans      &trans                   &msc SCRL_UP  &msc SCRL_DOWN  &kp F24     &kp K_CONTEXT_MENU     &trans   &trans
+&trans  &trans    &trans    &kp LC(C)  &kp LC(V)  &trans                  &trans      &trans                    &trans       &msc SCRL_UP    &msc SCRL_DOWN  &kp F24     &kp K_CONTEXT_MENU     &trans  
 &trans  &trans    &trans    &trans     &trans             &trans  &trans  &trans      &trans  &trans  &kp F21                &trans          &trans     &trans     &trans   &trans
             >;
         };
