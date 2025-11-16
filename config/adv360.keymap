@@ -37,7 +37,7 @@
 // #define DIFFICULTY_LEVEL 5 // expert (100ms)
 //
 #if defined(DIFFICULTY_LEVEL) && DIFFICULTY_LEVEL > 0
-#define DIFFICULTY_THRESHOLD (((6-DIFFICULTY_LEVEL)*100) - 50)
+#define DIFFICULTY_THRESHOLD (((6-DIFFICULTY_LEVEL)*100))
 #ifndef HOMEY_HOLDING_TIME
 #define HOMEY_HOLDING_TIME DIFFICULTY_THRESHOLD
 #endif
@@ -80,7 +80,7 @@ behaviors {
     // unintended activation of home row mods when you're actively typing.
     //
     #ifndef HOMEY_STREAK_DECAY
-    #define HOMEY_STREAK_DECAY 250
+    #define HOMEY_STREAK_DECAY 200
     #endif
 
     //
@@ -170,7 +170,7 @@ behaviors {
     #define PINKY_HOLDING_TYPE HOMEY_HOLDING_TYPE
     #endif
     #ifndef PINKY_HOLDING_TIME
-    #define PINKY_HOLDING_TIME (HOMEY_HOLDING_TIME + 50)
+    #define PINKY_HOLDING_TIME (HOMEY_HOLDING_TIME)
     #endif
     #ifndef PINKY_STREAK_DECAY
     #define PINKY_STREAK_DECAY HOMEY_STREAK_DECAY
@@ -218,7 +218,7 @@ behaviors {
     #define INDEX_HOLDING_TYPE HOMEY_HOLDING_TYPE
     #endif
     #ifndef INDEX_HOLDING_TIME
-    #define INDEX_HOLDING_TIME HOMEY_HOLDING_TIME
+    #define INDEX_HOLDING_TIME (HOMEY_HOLDING_TIME - 50)
     #endif
     #ifndef INDEX_STREAK_DECAY
     #define INDEX_STREAK_DECAY HOMEY_STREAK_DECAY
