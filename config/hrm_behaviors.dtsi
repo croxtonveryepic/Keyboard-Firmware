@@ -1,0 +1,435 @@
+//////////////////////////////////////////////////////////////////////////////
+//
+// Home Row Mods (HRM) — Advanced hold-tap behaviors
+//
+// Based on Sunaku's Keymap v35 "Glorious Engrammer"
+// - https://github.com/sunaku/glove80-keymaps
+// - https://sunaku.github.io/home-row-mods.html#porting-to-zmk
+// - https://github.com/urob/zmk-config#timeless-homerow-mods
+//
+// To customize, #define any setting BEFORE including this file.
+// Example: #define HOMEY_HOLDING_TIME 300
+//
+//////////////////////////////////////////////////////////////////////////////
+
+//
+// DIFFICULTY_LEVEL timing threshold
+//
+// #define DIFFICULTY_LEVEL 0 // custom (see defaults below)
+// #define DIFFICULTY_LEVEL 1 // novice (500ms)
+// #define DIFFICULTY_LEVEL 2 // slower (400ms)
+// #define DIFFICULTY_LEVEL 3 // normal (300ms)
+// #define DIFFICULTY_LEVEL 4 // faster (200ms)
+// #define DIFFICULTY_LEVEL 5 // expert (100ms)
+//
+#if defined(DIFFICULTY_LEVEL) && DIFFICULTY_LEVEL > 0
+#define DIFFICULTY_THRESHOLD (((6-DIFFICULTY_LEVEL)*100))
+#ifndef HOMEY_HOLDING_TIME
+#define HOMEY_HOLDING_TIME DIFFICULTY_THRESHOLD
+#endif
+#ifndef INDEX_HOLDING_TIME
+#define INDEX_HOLDING_TIME DIFFICULTY_THRESHOLD
+#endif
+#endif
+
+//////////////////////////////////////////////////////////////////////////////
+// Base defaults: non-index fingers (pinky, ring, middle)
+//////////////////////////////////////////////////////////////////////////////
+
+#ifndef HOMEY_HOLDING_TYPE
+#define HOMEY_HOLDING_TYPE "tap-preferred"
+#endif
+
+// How long to hold (ms) to register the modifier
+#ifndef HOMEY_HOLDING_TIME
+#define HOMEY_HOLDING_TIME 270 // TAPPING_TERM + ALLOW_CROSSOVER_AFTER
+#endif
+
+// How long after typing (ms) before home row mods activate again
+#ifndef HOMEY_STREAK_DECAY
+#define HOMEY_STREAK_DECAY 250
+#endif
+
+// Time window (ms) to hold again after tap for auto-repeat
+#ifndef HOMEY_REPEAT_DECAY
+#define HOMEY_REPEAT_DECAY 300
+#endif
+
+//////////////////////////////////////////////////////////////////////////////
+// Base defaults: index fingers (Shift in Miryoku)
+//////////////////////////////////////////////////////////////////////////////
+
+#ifndef INDEX_HOLDING_TYPE
+#define INDEX_HOLDING_TYPE "tap-preferred"
+#endif
+
+#ifndef INDEX_HOLDING_TIME
+#define INDEX_HOLDING_TIME 170
+#endif
+
+#ifndef INDEX_STREAK_DECAY
+#define INDEX_STREAK_DECAY 150
+#endif
+
+#ifndef INDEX_REPEAT_DECAY
+#define INDEX_REPEAT_DECAY 300
+#endif
+
+//////////////////////////////////////////////////////////////////////////////
+// Key position groups (for hold-trigger-key-positions)
+//
+//   0  1  2  3  4  5  6         7  8  9 10 11 12 13
+//  14 15 16 17 18 19 20        21 22 23 24 25 26 27
+//  28 29 30 31 32 33 34        39 40 41 42 43 44 45
+//  46 47 48 49 50 51           54 55 56 57 58 59
+//  60 61 62 63 64              71 72 73 74 75
+//
+//                    35 36    37 38
+//                       52    53
+//                 65 66 67    68 69 70
+//
+//////////////////////////////////////////////////////////////////////////////
+
+#define LEFT_HAND_KEYS      \
+       0  1  2  3  4 5  6   \
+       14 15 16 17 18 19 20 \
+       28 29 30 31 32 33 34 \
+       46 47 48 49 50 51    \
+       60 61 62 63 64
+
+#define RIGHT_HAND_KEYS     \
+                                7  8  9 10 11 12 13\
+                                21 22 23 24 25 26 27  \
+                                39 40 41 42 43 44 45  \
+                                54 55 56 57 58 59 \
+                                71 72 73 74 75
+
+#define THUMB_KEYS          \
+                      35 36     37 38   \
+                         52     53      \
+                   65 66 67     68 69 70
+
+//////////////////////////////////////////////////////////////////////////////
+// Per-finger defaults (inherit from HOMEY_*)
+//////////////////////////////////////////////////////////////////////////////
+
+// --- Pinky → HOMEY ---
+#ifndef PINKY_HOLDING_TYPE
+#define PINKY_HOLDING_TYPE HOMEY_HOLDING_TYPE
+#endif
+#ifndef PINKY_HOLDING_TIME
+#define PINKY_HOLDING_TIME HOMEY_HOLDING_TIME
+#endif
+#ifndef PINKY_STREAK_DECAY
+#define PINKY_STREAK_DECAY HOMEY_STREAK_DECAY
+#endif
+#ifndef PINKY_REPEAT_DECAY
+#define PINKY_REPEAT_DECAY HOMEY_REPEAT_DECAY
+#endif
+
+// --- Ring1 → HOMEY ---
+#ifndef RING1_HOLDING_TYPE
+#define RING1_HOLDING_TYPE HOMEY_HOLDING_TYPE
+#endif
+#ifndef RING1_HOLDING_TIME
+#define RING1_HOLDING_TIME HOMEY_HOLDING_TIME
+#endif
+#ifndef RING1_STREAK_DECAY
+#define RING1_STREAK_DECAY HOMEY_STREAK_DECAY
+#endif
+#ifndef RING1_REPEAT_DECAY
+#define RING1_REPEAT_DECAY HOMEY_REPEAT_DECAY
+#endif
+
+// --- Ring2 → HOMEY ---
+#ifndef RING2_HOLDING_TYPE
+#define RING2_HOLDING_TYPE HOMEY_HOLDING_TYPE
+#endif
+#ifndef RING2_HOLDING_TIME
+#define RING2_HOLDING_TIME HOMEY_HOLDING_TIME
+#endif
+#ifndef RING2_STREAK_DECAY
+#define RING2_STREAK_DECAY HOMEY_STREAK_DECAY
+#endif
+#ifndef RING2_REPEAT_DECAY
+#define RING2_REPEAT_DECAY HOMEY_REPEAT_DECAY
+#endif
+
+// --- Middle → HOMEY ---
+#ifndef MIDDY_HOLDING_TYPE
+#define MIDDY_HOLDING_TYPE HOMEY_HOLDING_TYPE
+#endif
+#ifndef MIDDY_HOLDING_TIME
+#define MIDDY_HOLDING_TIME HOMEY_HOLDING_TIME
+#endif
+#ifndef MIDDY_STREAK_DECAY
+#define MIDDY_STREAK_DECAY HOMEY_STREAK_DECAY
+#endif
+#ifndef MIDDY_REPEAT_DECAY
+#define MIDDY_REPEAT_DECAY HOMEY_REPEAT_DECAY
+#endif
+
+//////////////////////////////////////////////////////////////////////////////
+// Behavior nodes
+//
+// Left-hand behaviors trigger on RIGHT_HAND_KEYS + THUMB_KEYS.
+// Right-hand behaviors trigger on LEFT_HAND_KEYS + THUMB_KEYS.
+//
+// Each has per-side overrides: e.g. LEFT_PINKY_* → PINKY_* → HOMEY_*
+//////////////////////////////////////////////////////////////////////////////
+
+/ {
+behaviors {
+
+    // ── Left Pinky (GUI) ──
+    #ifndef LEFT_PINKY_HOLDING_TYPE
+    #define LEFT_PINKY_HOLDING_TYPE PINKY_HOLDING_TYPE
+    #endif
+    #ifndef LEFT_PINKY_HOLDING_TIME
+    #define LEFT_PINKY_HOLDING_TIME PINKY_HOLDING_TIME
+    #endif
+    #ifndef LEFT_PINKY_STREAK_DECAY
+    #define LEFT_PINKY_STREAK_DECAY PINKY_STREAK_DECAY
+    #endif
+    #ifndef LEFT_PINKY_REPEAT_DECAY
+    #define LEFT_PINKY_REPEAT_DECAY PINKY_REPEAT_DECAY
+    #endif
+    left_pinky: homey_left_pinky {
+        compatible = "zmk,behavior-hold-tap";
+        flavor = LEFT_PINKY_HOLDING_TYPE;
+        hold-trigger-key-positions = <RIGHT_HAND_KEYS THUMB_KEYS>;
+        hold-trigger-on-release;
+        tapping-term-ms = <LEFT_PINKY_HOLDING_TIME>;
+        quick-tap-ms = <LEFT_PINKY_REPEAT_DECAY>;
+        require-prior-idle-ms = <LEFT_PINKY_STREAK_DECAY>;
+        #binding-cells = <2>;
+        bindings = <&kp>, <&kp>;
+    };
+
+    // ── Right Pinky (GUI) ──
+    #ifndef RIGHT_PINKY_HOLDING_TYPE
+    #define RIGHT_PINKY_HOLDING_TYPE PINKY_HOLDING_TYPE
+    #endif
+    #ifndef RIGHT_PINKY_HOLDING_TIME
+    #define RIGHT_PINKY_HOLDING_TIME PINKY_HOLDING_TIME
+    #endif
+    #ifndef RIGHT_PINKY_STREAK_DECAY
+    #define RIGHT_PINKY_STREAK_DECAY PINKY_STREAK_DECAY
+    #endif
+    #ifndef RIGHT_PINKY_REPEAT_DECAY
+    #define RIGHT_PINKY_REPEAT_DECAY PINKY_REPEAT_DECAY
+    #endif
+    right_pinky: homey_right_pinky {
+        compatible = "zmk,behavior-hold-tap";
+        flavor = RIGHT_PINKY_HOLDING_TYPE;
+        hold-trigger-key-positions = <LEFT_HAND_KEYS THUMB_KEYS>;
+        hold-trigger-on-release;
+        tapping-term-ms = <RIGHT_PINKY_HOLDING_TIME>;
+        quick-tap-ms = <RIGHT_PINKY_REPEAT_DECAY>;
+        require-prior-idle-ms = <RIGHT_PINKY_STREAK_DECAY>;
+        #binding-cells = <2>;
+        bindings = <&kp>, <&kp>;
+    };
+
+    // ── Left Ring1 (ALT) ──
+    #ifndef LEFT_RING1_HOLDING_TYPE
+    #define LEFT_RING1_HOLDING_TYPE RING1_HOLDING_TYPE
+    #endif
+    #ifndef LEFT_RING1_HOLDING_TIME
+    #define LEFT_RING1_HOLDING_TIME RING1_HOLDING_TIME
+    #endif
+    #ifndef LEFT_RING1_STREAK_DECAY
+    #define LEFT_RING1_STREAK_DECAY RING1_STREAK_DECAY
+    #endif
+    #ifndef LEFT_RING1_REPEAT_DECAY
+    #define LEFT_RING1_REPEAT_DECAY RING1_REPEAT_DECAY
+    #endif
+    left_ring1: homey_left_ring1 {
+        compatible = "zmk,behavior-hold-tap";
+        flavor = LEFT_RING1_HOLDING_TYPE;
+        hold-trigger-key-positions = <RIGHT_HAND_KEYS THUMB_KEYS>;
+        hold-trigger-on-release;
+        tapping-term-ms = <LEFT_RING1_HOLDING_TIME>;
+        quick-tap-ms = <LEFT_RING1_REPEAT_DECAY>;
+        require-prior-idle-ms = <LEFT_RING1_STREAK_DECAY>;
+        #binding-cells = <2>;
+        bindings = <&kp>, <&kp>;
+    };
+
+    // ── Right Ring1 (ALT) ──
+    #ifndef RIGHT_RING1_HOLDING_TYPE
+    #define RIGHT_RING1_HOLDING_TYPE RING1_HOLDING_TYPE
+    #endif
+    #ifndef RIGHT_RING1_HOLDING_TIME
+    #define RIGHT_RING1_HOLDING_TIME RING1_HOLDING_TIME
+    #endif
+    #ifndef RIGHT_RING1_STREAK_DECAY
+    #define RIGHT_RING1_STREAK_DECAY RING1_STREAK_DECAY
+    #endif
+    #ifndef RIGHT_RING1_REPEAT_DECAY
+    #define RIGHT_RING1_REPEAT_DECAY RING1_REPEAT_DECAY
+    #endif
+    right_ring1: homey_right_ring1 {
+        compatible = "zmk,behavior-hold-tap";
+        flavor = RIGHT_RING1_HOLDING_TYPE;
+        hold-trigger-key-positions = <LEFT_HAND_KEYS THUMB_KEYS>;
+        hold-trigger-on-release;
+        tapping-term-ms = <RIGHT_RING1_HOLDING_TIME>;
+        quick-tap-ms = <RIGHT_RING1_REPEAT_DECAY>;
+        require-prior-idle-ms = <RIGHT_RING1_STREAK_DECAY>;
+        #binding-cells = <2>;
+        bindings = <&kp>, <&kp>;
+    };
+
+    // ── Left Ring2 (CTRL) ──
+    #ifndef LEFT_RING2_HOLDING_TYPE
+    #define LEFT_RING2_HOLDING_TYPE RING2_HOLDING_TYPE
+    #endif
+    #ifndef LEFT_RING2_HOLDING_TIME
+    #define LEFT_RING2_HOLDING_TIME RING2_HOLDING_TIME
+    #endif
+    #ifndef LEFT_RING2_STREAK_DECAY
+    #define LEFT_RING2_STREAK_DECAY RING2_STREAK_DECAY
+    #endif
+    #ifndef LEFT_RING2_REPEAT_DECAY
+    #define LEFT_RING2_REPEAT_DECAY RING2_REPEAT_DECAY
+    #endif
+    left_ring2: homey_left_ring2 {
+        compatible = "zmk,behavior-hold-tap";
+        flavor = LEFT_RING2_HOLDING_TYPE;
+        hold-trigger-key-positions = <RIGHT_HAND_KEYS THUMB_KEYS>;
+        hold-trigger-on-release;
+        tapping-term-ms = <LEFT_RING2_HOLDING_TIME>;
+        quick-tap-ms = <LEFT_RING2_REPEAT_DECAY>;
+        require-prior-idle-ms = <LEFT_RING2_STREAK_DECAY>;
+        #binding-cells = <2>;
+        bindings = <&kp>, <&kp>;
+    };
+
+    // ── Right Ring2 (CTRL) ──
+    #ifndef RIGHT_RING2_HOLDING_TYPE
+    #define RIGHT_RING2_HOLDING_TYPE RING2_HOLDING_TYPE
+    #endif
+    #ifndef RIGHT_RING2_HOLDING_TIME
+    #define RIGHT_RING2_HOLDING_TIME RING2_HOLDING_TIME
+    #endif
+    #ifndef RIGHT_RING2_STREAK_DECAY
+    #define RIGHT_RING2_STREAK_DECAY RING2_STREAK_DECAY
+    #endif
+    #ifndef RIGHT_RING2_REPEAT_DECAY
+    #define RIGHT_RING2_REPEAT_DECAY RING2_REPEAT_DECAY
+    #endif
+    right_ring2: homey_right_ring2 {
+        compatible = "zmk,behavior-hold-tap";
+        flavor = RIGHT_RING2_HOLDING_TYPE;
+        hold-trigger-key-positions = <LEFT_HAND_KEYS THUMB_KEYS>;
+        hold-trigger-on-release;
+        tapping-term-ms = <RIGHT_RING2_HOLDING_TIME>;
+        quick-tap-ms = <RIGHT_RING2_REPEAT_DECAY>;
+        require-prior-idle-ms = <RIGHT_RING2_STREAK_DECAY>;
+        #binding-cells = <2>;
+        bindings = <&kp>, <&kp>;
+    };
+
+    // ── Left Middle (CTRL) ──
+    #ifndef LEFT_MIDDY_HOLDING_TYPE
+    #define LEFT_MIDDY_HOLDING_TYPE MIDDY_HOLDING_TYPE
+    #endif
+    #ifndef LEFT_MIDDY_HOLDING_TIME
+    #define LEFT_MIDDY_HOLDING_TIME MIDDY_HOLDING_TIME
+    #endif
+    #ifndef LEFT_MIDDY_STREAK_DECAY
+    #define LEFT_MIDDY_STREAK_DECAY MIDDY_STREAK_DECAY
+    #endif
+    #ifndef LEFT_MIDDY_REPEAT_DECAY
+    #define LEFT_MIDDY_REPEAT_DECAY MIDDY_REPEAT_DECAY
+    #endif
+    left_middy: homey_left_middy {
+        compatible = "zmk,behavior-hold-tap";
+        flavor = LEFT_MIDDY_HOLDING_TYPE;
+        hold-trigger-key-positions = <RIGHT_HAND_KEYS THUMB_KEYS>;
+        hold-trigger-on-release;
+        tapping-term-ms = <LEFT_MIDDY_HOLDING_TIME>;
+        quick-tap-ms = <LEFT_MIDDY_REPEAT_DECAY>;
+        require-prior-idle-ms = <LEFT_MIDDY_STREAK_DECAY>;
+        #binding-cells = <2>;
+        bindings = <&kp>, <&kp>;
+    };
+
+    // ── Right Middle (CTRL) ──
+    #ifndef RIGHT_MIDDY_HOLDING_TYPE
+    #define RIGHT_MIDDY_HOLDING_TYPE MIDDY_HOLDING_TYPE
+    #endif
+    #ifndef RIGHT_MIDDY_HOLDING_TIME
+    #define RIGHT_MIDDY_HOLDING_TIME MIDDY_HOLDING_TIME
+    #endif
+    #ifndef RIGHT_MIDDY_STREAK_DECAY
+    #define RIGHT_MIDDY_STREAK_DECAY MIDDY_STREAK_DECAY
+    #endif
+    #ifndef RIGHT_MIDDY_REPEAT_DECAY
+    #define RIGHT_MIDDY_REPEAT_DECAY MIDDY_REPEAT_DECAY
+    #endif
+    right_middy: homey_right_middy {
+        compatible = "zmk,behavior-hold-tap";
+        flavor = RIGHT_MIDDY_HOLDING_TYPE;
+        hold-trigger-key-positions = <LEFT_HAND_KEYS THUMB_KEYS>;
+        hold-trigger-on-release;
+        tapping-term-ms = <RIGHT_MIDDY_HOLDING_TIME>;
+        quick-tap-ms = <RIGHT_MIDDY_REPEAT_DECAY>;
+        require-prior-idle-ms = <RIGHT_MIDDY_STREAK_DECAY>;
+        #binding-cells = <2>;
+        bindings = <&kp>, <&kp>;
+    };
+
+    // ── Left Index (SHIFT) ──
+    #ifndef LEFT_INDEX_HOLDING_TYPE
+    #define LEFT_INDEX_HOLDING_TYPE INDEX_HOLDING_TYPE
+    #endif
+    #ifndef LEFT_INDEX_HOLDING_TIME
+    #define LEFT_INDEX_HOLDING_TIME INDEX_HOLDING_TIME
+    #endif
+    #ifndef LEFT_INDEX_STREAK_DECAY
+    #define LEFT_INDEX_STREAK_DECAY INDEX_STREAK_DECAY
+    #endif
+    #ifndef LEFT_INDEX_REPEAT_DECAY
+    #define LEFT_INDEX_REPEAT_DECAY INDEX_REPEAT_DECAY
+    #endif
+    left_index: homey_left_index {
+        compatible = "zmk,behavior-hold-tap";
+        flavor = LEFT_INDEX_HOLDING_TYPE;
+        hold-trigger-key-positions = <RIGHT_HAND_KEYS THUMB_KEYS>;
+        hold-trigger-on-release;
+        tapping-term-ms = <LEFT_INDEX_HOLDING_TIME>;
+        quick-tap-ms = <LEFT_INDEX_REPEAT_DECAY>;
+        require-prior-idle-ms = <LEFT_INDEX_STREAK_DECAY>;
+        #binding-cells = <2>;
+        bindings = <&kp>, <&kp>;
+    };
+
+    // ── Right Index (SHIFT) ──
+    #ifndef RIGHT_INDEX_HOLDING_TYPE
+    #define RIGHT_INDEX_HOLDING_TYPE INDEX_HOLDING_TYPE
+    #endif
+    #ifndef RIGHT_INDEX_HOLDING_TIME
+    #define RIGHT_INDEX_HOLDING_TIME INDEX_HOLDING_TIME
+    #endif
+    #ifndef RIGHT_INDEX_STREAK_DECAY
+    #define RIGHT_INDEX_STREAK_DECAY INDEX_STREAK_DECAY
+    #endif
+    #ifndef RIGHT_INDEX_REPEAT_DECAY
+    #define RIGHT_INDEX_REPEAT_DECAY INDEX_REPEAT_DECAY
+    #endif
+    right_index: homey_right_index {
+        compatible = "zmk,behavior-hold-tap";
+        flavor = RIGHT_INDEX_HOLDING_TYPE;
+        hold-trigger-key-positions = <LEFT_HAND_KEYS THUMB_KEYS>;
+        hold-trigger-on-release;
+        tapping-term-ms = <RIGHT_INDEX_HOLDING_TIME>;
+        quick-tap-ms = <RIGHT_INDEX_REPEAT_DECAY>;
+        require-prior-idle-ms = <RIGHT_INDEX_STREAK_DECAY>;
+        #binding-cells = <2>;
+        bindings = <&kp>, <&kp>;
+    };
+
+};
+};

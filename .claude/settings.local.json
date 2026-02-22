@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find:*)",
+      "Bash(git -C /d/cs-projects/adv360pro-zmk-config log --oneline)",
+      "Bash(du:*)",
+      "WebSearch",
+      "WebFetch(domain:source.android.com)"
+    ]
+  }
+}
