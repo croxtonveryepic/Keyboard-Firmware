@@ -17,7 +17,6 @@
 #define DIFFICULTY_LEVEL  4 // 0:custom, 1:easy(500ms) → 5:hard(100ms)
 #define HOMEY_HOLDING_TIME 200
 #define HOMEY_STREAK_DECAY 200
-#define INDEX_HOLDING_TIME 150
 
 /* ─── Home Row Mods (see hrm_behaviors.dtsi for docs) ────────────────── */
 #include "hrm_behaviors.dtsi"
