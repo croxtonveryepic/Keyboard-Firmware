@@ -56,6 +56,56 @@
     behaviors {
         #include "macros.dtsi"
         #include "version.dtsi"
+
+        // SCREAMING_SNAKE typing. snake_td: tap = one auto-ending word,
+        // double-tap = lock. The auto-layer holds the Caps_Snake layer (6,
+        // which pre-shifts letters and maps - to _) until a key outside its
+        // continue-list/alphas/numbers ends it — caps-word, but for a layer.
+        // Needs the zmk-auto-layer module (see west.yml).
+        snake_word: snake_word {
+            compatible = "zmk,behavior-auto-layer";
+            #binding-cells = <1>;
+            continue-list = <UNDERSCORE BACKSPACE DELETE>;
+            ignore-alphas;
+            ignore-numbers;
+            ignore-modifiers;
+        };
+
+        snake_td: snake_td {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&snake_word 6>, <&tog 6>;
+        };
+
+        // Momentary RGB status peek: press = layer color (effect 4),
+        // Ctrl+press = battery (effect 5, via &stp). On this fork &stp only
+        // selects the effect, so these switch RGB on for the hold and off on
+        // release. The latched RGB toggle lives on the Meta layer.
+        rgb_layer: rgb_layer {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&rgb_ug RGB_ON>, <&macro_pause_for_release>, <&rgb_ug RGB_OFF>;
+        };
+
+        rgb_batt: rgb_batt {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_tap &rgb_ug RGB_ON>
+                , <&macro_press &stp STP_BAT>
+                , <&macro_pause_for_release>
+                , <&macro_release &stp STP_BAT>
+                , <&macro_tap &rgb_ug RGB_OFF>
+                ;
+        };
+
+        rgb_hint: rgb_hint {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&rgb_layer>, <&rgb_batt>;
+            mods = <(MOD_LCTL|MOD_RCTL)>;
+        };
     };
 
 /* ─── Keymap ─────────────────────────────────────────────────────────────
@@ -84,10 +134,10 @@
             bindings = <
 // ╭─ Left Hand ─────────────────────────────────────────────────────────────────╮                                                                                          ╭─ Right Hand ────────────────────────────────────────────────────────────────────╮
     &kp F24     &kp NUMBER_1              &kp N2             &kp N3              &kp N4              &kp N5  &kp C_MUTE                                                          &kp C_PLAY_PAUSE  &kp N6              &kp N7             &kp N8              &kp N9           &kp N0       &tog 2
-    &mo 3       &kp PAUSE_BREAK          &kp P              &kp L               &kp K               &kp Q   &kp C_VOLUME_UP                                                    &kp C_NEXT        &kp G               &kp F              &kp A               &kp U            &kp SCROLLLOCK         &tog 4
+    &mo 3       &kp PAUSE_BREAK          &kp P              &kp L               &kp K               &kp Q   &kp C_VOLUME_UP                                                    &kp C_NEXT        &kp G               &kp F              &kp A               &kp U            &kp SCROLLLOCK         &rgb_hint
     &kp X       &left_pinky LGUI S    &left_ring1 LALT N &left_middy LCTRL R &left_index LSHFT T &kp M   &kp C_VOLUME_DOWN  &kp SLASH  &kp LEFT_BRACKET  &kp RIGHT_BRACKET  &kp GRAVE         &kp C_PREV          &kp Y              &right_index LSHFT C &right_middy LCTRL O &right_ring1 LALT I &right_pinky LGUI E &kp J
-    &caps_word  &kp Z                 &kp B              &kp H               &kp D               &kp V                      &kp MINUS  &kp EQUAL                            &kp SQT           &kp W               &kp PERIOD         &kp COMMA           &kp SEMICOLON    &kp BACKSLASH
-    &kp CAPSLOCK &kp HOME             &kp END            &kp LEFT            &kp RIGHT                   &lt 1 TAB          &lt 2 SPACE &kp ESCAPE                          &kp DELETE         &kp BACKSPACE       &kp ENTER                              &kp UP           &kp DOWN       &kp PAGE_UP  &kp PAGE_DOWN  &none
+    &snake_td  &kp Z                 &kp B              &kp H               &kp D               &kp V                      &kp MINUS  &kp EQUAL                            &kp SQT           &kp W               &kp PERIOD         &kp COMMA           &kp SEMICOLON    &kp BACKSLASH
+    &tog 4 &kp HOME             &kp END            &kp LEFT            &kp RIGHT                   &lt 1 TAB          &lt 2 SPACE &kp ESCAPE                          &kp DELETE         &kp BACKSPACE       &kp ENTER                              &kp UP           &kp DOWN       &kp PAGE_UP  &kp PAGE_DOWN  &tog 1
             >;
         };
 
@@ -131,10 +181,10 @@
             bindings = <
 // ╭─ Left Hand ─────────────────────────────────────────────────────────────────╮                                                                                          ╭─ Right Hand ────────────────────────────────────────────────────────────────────╮
     &kp F24     &kp NUMBER_1              &kp N2             &kp N3              &kp N4              &kp N5  &kp C_MUTE                                                          &kp C_PLAY_PAUSE  &kp N6              &kp N7             &kp N8              &kp N9           &kp N0       &tog 2
-    &mo 3       &kp PAUSE_BREAK          &kp P              &kp L               &kp K               &kp Q   &kp C_VOLUME_UP                                                    &kp C_NEXT        &kp G               &kp F              &kp A               &kp U            &kp SCROLLLOCK         &tog 4
+    &mo 3       &kp PAUSE_BREAK          &kp P              &kp L               &kp K               &kp Q   &kp C_VOLUME_UP                                                    &kp C_NEXT        &kp G               &kp F              &kp A               &kp U            &kp SCROLLLOCK         &rgb_hint
     &kp X       &kp S                 &kp N              &kp R               &kp T               &kp M   &kp C_VOLUME_DOWN  &kp SLASH  &kp LEFT_BRACKET  &kp RIGHT_BRACKET  &kp GRAVE         &kp C_PREV          &kp Y              &kp C                &kp O                &kp I               &kp E               &kp J
-    &caps_word  &kp Z                 &kp B              &kp H               &kp D               &kp V                      &kp MINUS  &kp EQUAL                            &kp SQT           &kp W               &kp PERIOD         &kp COMMA           &kp SEMICOLON    &kp BACKSLASH
-    &kp CAPSLOCK &kp HOME             &kp END            &kp LEFT            &kp RIGHT                   &mo 5            &kp SPACE   &kp ESCAPE                          &kp DELETE         &kp BACKSPACE               &kp ENTER                              &kp UP           &kp DOWN       &kp PAGE_UP  &kp PAGE_DOWN  &none
+    &snake_td  &kp Z                 &kp B              &kp H               &kp D               &kp V                      &kp MINUS  &kp EQUAL                            &kp SQT           &kp W               &kp PERIOD         &kp COMMA           &kp SEMICOLON    &kp BACKSLASH
+    &tog 4 &kp HOME             &kp END            &kp LEFT            &kp RIGHT                   &mo 5            &kp SPACE   &kp ESCAPE                          &kp DELETE         &kp BACKSPACE               &kp ENTER                              &kp UP           &kp DOWN       &kp PAGE_UP  &kp PAGE_DOWN  &tog 1
             >;
         };
 
@@ -144,18 +194,28 @@
             bindings = <
 // ╭─ Left Hand ─────────────────────────────────────────────────────────────────╮                                                                                          ╭─ Right Hand ────────────────────────────────────────────────────────────────────╮
     &kp F24     &kp NUMBER_1              &kp N2             &kp N3              &kp N4              &kp N5  &kp C_MUTE                                                          &kp C_PLAY_PAUSE  &kp N6              &kp N7             &kp N8              &kp N9           &kp N0       &tog 2
-    &mo 3       &kp PAUSE_BREAK          &kp P              &kp L               &kp K               &kp Q   &kp C_VOLUME_UP                                                    &kp C_NEXT        &kp G               &kp F              &kp A               &kp U            &kp SCROLLLOCK         &tog 4
+    &mo 3       &kp PAUSE_BREAK          &kp P              &kp L               &kp K               &kp Q   &kp C_VOLUME_UP                                                    &kp C_NEXT        &kp G               &kp F              &kp A               &kp U            &kp SCROLLLOCK         &rgb_hint
     &kp X       &kp N1                &kp N2             &kp N3              &kp N4              &kp N5  &kp C_VOLUME_DOWN  &kp SLASH  &kp LEFT_BRACKET  &kp RIGHT_BRACKET  &kp GRAVE         &kp C_PREV          &kp Y              &kp C                &kp O                &kp I               &kp E               &kp J
-    &caps_word  &kp N6                &kp N7             &kp N8              &kp N9              &kp N0                     &kp MINUS  &kp EQUAL                            &kp SQT           &kp W               &kp PERIOD         &kp COMMA           &kp SEMICOLON    &kp BACKSLASH
-    &kp CAPSLOCK &kp HOME             &kp END            &kp LEFT            &kp RIGHT                   &kp TAB            &kp SPACE   &kp ESCAPE                          &kp DELETE         &trans              &kp ENTER                              &kp UP           &kp DOWN       &kp PAGE_UP  &kp PAGE_DOWN  &none
+    &snake_td  &kp N6                &kp N7             &kp N8              &kp N9              &kp N0                     &kp MINUS  &kp EQUAL                            &kp SQT           &kp W               &kp PERIOD         &kp COMMA           &kp SEMICOLON    &kp BACKSLASH
+    &tog 4 &kp HOME             &kp END            &kp LEFT            &kp RIGHT                   &kp TAB            &kp SPACE   &kp ESCAPE                          &kp DELETE         &trans              &kp ENTER                              &kp UP           &kp DOWN       &kp PAGE_UP  &kp PAGE_DOWN  &tog 1
             >;
         };
 
-        /* Layers 6-7: Reserved for ZMK Studio */
+        /* Layer 7 (extra4) stays reserved for ZMK Studio. */
 
-        extra3 {
-            display-name = "Cyan";
-            status = "reserved";
+        /* Layer 6: Caps_Snake — pre-shifted snake layer. Letters are LS(x)
+         * (self-contained caps, no OS caps-lock state); MINUS -> UNDERSCORE.
+         * Reached via &snake_td: tap = auto-ending word, double-tap = locked.
+         * pos 46 (&tog 6) exits the locked mode. */
+        Caps_Snake {
+            display-name = "CapsSnk";
+            bindings = <
+    &trans     &trans     &trans     &trans     &trans     &trans     &trans                                                          &trans     &trans     &trans     &trans     &trans     &trans  &trans
+    &trans     &trans     &kp LS(P)  &kp LS(L)  &kp LS(K)  &kp LS(Q)  &trans                                                          &trans     &kp LS(G)  &kp LS(F)  &kp LS(A)  &kp LS(U)  &trans  &trans
+    &kp LS(X)  &kp LS(S)  &kp LS(N)  &kp LS(R)  &kp LS(T)  &kp LS(M)  &trans  &trans  &trans                              &trans  &trans  &trans  &kp LS(Y)  &kp LS(C)  &kp LS(O)  &kp LS(I)  &kp LS(E)  &kp LS(J)
+    &tog 6     &kp LS(Z)  &kp LS(B)  &kp LS(H)  &kp LS(D)  &kp LS(V)  &kp UNDERSCORE  &trans  &trans  &kp LS(W)  &trans  &trans  &trans  &trans
+    &trans     &trans     &trans     &trans     &trans     &trans     &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+            >;
         };
 
         extra4 {
