@@ -130,14 +130,14 @@
 
         /* Layer 0: Base */
         default_layer {
-            display-name = "Base";
+              display-name = "Base";
             bindings = <
 // ╭─ Left Hand ─────────────────────────────────────────────────────────────────╮                                                                                          ╭─ Right Hand ────────────────────────────────────────────────────────────────────╮
-    &kp F24     &kp NUMBER_1              &kp N2             &kp N3              &kp N4              &kp N5  &kp C_MUTE                                                          &kp C_PLAY_PAUSE  &kp N6              &kp N7             &kp N8              &kp N9           &kp N0       &tog 2
+    &kp F24     &kp NUMBER_1              &kp N2             &kp N3              &kp N4              &kp N5  &kp C_MUTE                                                          &kp C_PLAY_PAUSE  &kp N6              &kp N7             &kp N8              &kp N9           &kp N0       &to 2
     &mo 3       &kp PAUSE_BREAK          &kp P              &kp L               &kp K               &kp Q   &kp C_VOLUME_UP                                                    &kp C_NEXT        &kp G               &kp F              &kp A               &kp U            &kp SCROLLLOCK         &rgb_hint
     &kp X       &left_pinky LGUI S    &left_ring1 LALT N &left_middy LCTRL R &left_index LSHFT T &kp M   &kp C_VOLUME_DOWN  &kp SLASH  &kp LEFT_BRACKET  &kp RIGHT_BRACKET  &kp GRAVE         &kp C_PREV          &kp Y              &right_index LSHFT C &right_middy LCTRL O &right_ring1 LALT I &right_pinky LGUI E &kp J
     &snake_td  &kp Z                 &kp B              &kp H               &kp D               &kp V                      &kp MINUS  &kp EQUAL                            &kp SQT           &kp W               &kp PERIOD         &kp COMMA           &kp SEMICOLON    &kp BACKSLASH
-    &tog 4 &kp HOME             &kp END            &kp LEFT            &kp RIGHT                   &lt 1 TAB          &lt 2 SPACE &kp ESCAPE                          &kp DELETE         &kp BACKSPACE       &kp ENTER                              &kp UP           &kp DOWN       &kp PAGE_UP  &kp PAGE_DOWN  &tog 1
+    &to 4 &kp HOME             &kp END            &kp LEFT            &kp RIGHT                   &lt 1 TAB          &lt 2 SPACE &kp ESCAPE                          &kp DELETE         &kp BACKSPACE       &kp ENTER                              &kp UP           &kp DOWN       &kp PAGE_UP  &kp PAGE_DOWN  &to 1
             >;
         };
 
@@ -148,14 +148,14 @@
     &trans  &trans        &trans        &trans     &trans          &trans  &trans                                                          &trans          &trans   &kp F7  &kp F8  &kp F9  &trans  &trans
     &trans  &kp LEFT_GUI  &kp LEFT_ALT  &kp LCTRL  &kp LEFT_SHIFT &trans  &trans  &trans  &trans                              &trans  &trans  &trans      &kp F13  &kp F4  &kp F5  &kp F6  &kp F11  &kp F12
     &trans  &trans        &trans        &trans     &trans          &trans                  &trans                              &trans                      &trans   &kp F1  &kp F2  &kp F3  &kp F10  &trans
-    &trans  &trans        &trans        &trans     &trans                  &trans  &trans  &trans                              &trans  &trans  &trans               &trans  &trans  &trans  &trans   &trans
+    &trans  &trans        &trans        &trans     &trans                  &trans  &trans  &trans                              &trans  &trans  &trans               &trans  &trans  &trans  &trans   &to 0
             >;
         };
 
         /* Layer 2: Mouse Keys + F13-F24 */
         Mouse_Keys {
             bindings = <
-    &kp F24  &trans         &trans           &trans     &trans     &trans  &trans                                                          &trans  &trans    &trans   &trans   &trans          &trans              &trans
+    &kp F24  &trans         &trans           &trans     &trans     &trans  &trans                                                          &trans  &trans    &trans   &trans   &trans          &trans              &to 0
     &trans  &trans          &trans           &trans     &trans     &trans  &trans                                                          &trans  &trans    &kp F21  &kp F22  &kp F23         &kp K_CONTEXT_MENU  &trans
     &trans  &kp LGUI        &kp LALT         &kp LCTRL  &kp LSHFT  &trans  &trans  &trans  &trans                              &trans  &trans  &trans  &kp F17   &kp F18  &kp F19  &kp F20         &kp F24             &kp PRINTSCREEN
     &trans  &msc SCRL_LEFT  &msc SCRL_RIGHT  &kp LC(C)  &kp LC(V)  &trans                  &trans                              &trans                  &trans    &kp F15  &kp F16  &msc SCRL_UP    &msc SCRL_DOWN      &trans
@@ -180,11 +180,11 @@
             display-name = "Plain";
             bindings = <
 // ╭─ Left Hand ─────────────────────────────────────────────────────────────────╮                                                                                          ╭─ Right Hand ────────────────────────────────────────────────────────────────────╮
-    &kp F24     &kp NUMBER_1              &kp N2             &kp N3              &kp N4              &kp N5  &kp C_MUTE                                                          &kp C_PLAY_PAUSE  &kp N6              &kp N7             &kp N8              &kp N9           &kp N0       &tog 2
+    &kp F24     &kp NUMBER_1              &kp N2             &kp N3              &kp N4              &kp N5  &kp C_MUTE                                                          &kp C_PLAY_PAUSE  &kp N6              &kp N7             &kp N8              &kp N9           &kp N0       &to 2
     &mo 3       &kp PAUSE_BREAK          &kp P              &kp L               &kp K               &kp Q   &kp C_VOLUME_UP                                                    &kp C_NEXT        &kp G               &kp F              &kp A               &kp U            &kp SCROLLLOCK         &rgb_hint
     &kp X       &kp S                 &kp N              &kp R               &kp T               &kp M   &kp C_VOLUME_DOWN  &kp SLASH  &kp LEFT_BRACKET  &kp RIGHT_BRACKET  &kp GRAVE         &kp C_PREV          &kp Y              &kp C                &kp O                &kp I               &kp E               &kp J
     &snake_td  &kp Z                 &kp B              &kp H               &kp D               &kp V                      &kp MINUS  &kp EQUAL                            &kp SQT           &kp W               &kp PERIOD         &kp COMMA           &kp SEMICOLON    &kp BACKSLASH
-    &tog 4 &kp HOME             &kp END            &kp LEFT            &kp RIGHT                   &mo 5            &kp SPACE   &kp ESCAPE                          &kp DELETE         &kp BACKSPACE               &kp ENTER                              &kp UP           &kp DOWN       &kp PAGE_UP  &kp PAGE_DOWN  &tog 1
+    &to 0 &kp HOME             &kp END            &kp LEFT            &kp RIGHT                   &mo 5            &kp SPACE   &kp ESCAPE                          &kp DELETE         &kp BACKSPACE               &kp ENTER                              &kp UP           &kp DOWN       &kp PAGE_UP  &kp PAGE_DOWN  &to 1
             >;
         };
 
@@ -193,11 +193,11 @@
             display-name = "Digits";
             bindings = <
 // ╭─ Left Hand ─────────────────────────────────────────────────────────────────╮                                                                                          ╭─ Right Hand ────────────────────────────────────────────────────────────────────╮
-    &kp F24     &kp NUMBER_1              &kp N2             &kp N3              &kp N4              &kp N5  &kp C_MUTE                                                          &kp C_PLAY_PAUSE  &kp N6              &kp N7             &kp N8              &kp N9           &kp N0       &tog 2
+    &kp F24     &kp NUMBER_1              &kp N2             &kp N3              &kp N4              &kp N5  &kp C_MUTE                                                          &kp C_PLAY_PAUSE  &kp N6              &kp N7             &kp N8              &kp N9           &kp N0       &to 2
     &mo 3       &kp PAUSE_BREAK          &kp P              &kp L               &kp K               &kp Q   &kp C_VOLUME_UP                                                    &kp C_NEXT        &kp G               &kp F              &kp A               &kp U            &kp SCROLLLOCK         &rgb_hint
     &kp X       &kp N1                &kp N2             &kp N3              &kp N4              &kp N5  &kp C_VOLUME_DOWN  &kp SLASH  &kp LEFT_BRACKET  &kp RIGHT_BRACKET  &kp GRAVE         &kp C_PREV          &kp Y              &kp C                &kp O                &kp I               &kp E               &kp J
     &snake_td  &kp N6                &kp N7             &kp N8              &kp N9              &kp N0                     &kp MINUS  &kp EQUAL                            &kp SQT           &kp W               &kp PERIOD         &kp COMMA           &kp SEMICOLON    &kp BACKSLASH
-    &tog 4 &kp HOME             &kp END            &kp LEFT            &kp RIGHT                   &kp TAB            &kp SPACE   &kp ESCAPE                          &kp DELETE         &trans              &kp ENTER                              &kp UP           &kp DOWN       &kp PAGE_UP  &kp PAGE_DOWN  &tog 1
+    &to 0 &kp HOME             &kp END            &kp LEFT            &kp RIGHT                   &kp TAB            &kp SPACE   &kp ESCAPE                          &kp DELETE         &trans              &kp ENTER                              &kp UP           &kp DOWN       &kp PAGE_UP  &kp PAGE_DOWN  &to 1
             >;
         };
 
