@@ -9,6 +9,7 @@ ZMK firmware configuration for the Kinesis Advantage 360 Pro split ergonomic key
 ## Build Commands
 
 **Local build (requires Docker or Podman):**
+
 ```
 make          # Build both halves (left + right)
 make left     # Build left half only
@@ -16,7 +17,11 @@ make clean    # Remove Docker image and firmware
 make clean_firmware  # Remove compiled firmware only
 ```
 
-Output goes to `firmware/` as `.uf2` files.
+`make` is not installed on this Windows machine (neither PowerShell nor Git Bash) — run `bin/local_build.sh [left]` from Git Bash instead; it mirrors the Makefile. (`bin/build.sh` is the container-side script, not the one to run on the host.)
+
+Output goes to `firmware/` as `.uf2` files. Every build clears old `.uf2` files first, so `firmware/` only ever contains the latest build.
+
+**Change workflow:** After any config change, build locally to validate (`bin/local_build.sh`, or `make` where available). The user then flashes and tests on the keyboard (see Flashing note below) — do not commit until the change has been tested on the board.
 
 **CI:** Push to GitHub triggers `.github/workflows/build.yml`, which builds two variants: legacy (no Clique studio) and Clique (with ZMK Studio support via `-S studio-rpc-usb-uart`). Artifacts are timestamped UF2 files.
 
@@ -41,6 +46,7 @@ There are no tests or linters — validation happens at build time (ZMK/Zephyr c
 ### Keymap Structure
 
 The keymap uses Devicetree syntax with ZMK bindings. Layers (0–7):
+
 - **0**: Base layer with Miryoku-inspired home row mods (hold-tap per finger: pinky=GUI, ring=ALT, middle=CTRL, index=SHIFT)
 - **1**: Function keys (F1–F12)
 - **2**: Mouse/pointing keys + F13–F24
