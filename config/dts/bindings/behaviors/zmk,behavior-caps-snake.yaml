@@ -1,0 +1,27 @@
+# Copyright (c) 2026 Jonathan Croxton
+# SPDX-License-Identifier: MIT
+
+description: Unified automatic and locked CapsSnake behavior
+
+compatible: "zmk,behavior-caps-snake"
+
+include: one_param.yaml
+
+properties:
+  layer:
+    type: int
+    required: true
+    description: Layer used for shifted letters and underscore.
+  continue-list:
+    type: array
+    required: true
+    description: Key codes which keep automatic mode active.
+  ignore-alphas:
+    type: boolean
+    description: Keep automatic mode active for alphabetic keys.
+  ignore-numbers:
+    type: boolean
+    description: Keep automatic mode active for numeric keys.
+  ignore-modifiers:
+    type: boolean
+    description: Keep automatic mode active for modifier keys.

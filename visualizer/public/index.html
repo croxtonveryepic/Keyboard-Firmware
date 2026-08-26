@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Advantage360 Keymap</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <p class="eyebrow">Live keymap lens</p>
+      <h1>Advantage360 Pro</h1>
+    </div>
+    <div class="live-status" aria-live="polite">
+      <span id="connection-dot" class="connection-dot"></span>
+      <span id="connection-label">Connecting</span>
+    </div>
+  </header>
+
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="source-card">
+        <span class="section-label">Source</span>
+        <strong id="source-path">Loading…</strong>
+        <span id="updated-at" class="source-meta"></span>
+      </div>
+
+      <nav aria-label="Keymap layers">
+        <div class="sidebar-heading">
+          <span class="section-label">Layers</span>
+          <span id="layer-total" class="count-pill">0</span>
+        </div>
+        <div id="layer-list" class="layer-list"></div>
+      </nav>
+
+      <div class="legend">
+        <span><i class="legend-swatch key-swatch"></i>Bound key</span>
+        <span><i class="legend-swatch empty-swatch"></i>Missing slot</span>
+        <span><i class="legend-swatch warning-swatch"></i>Layer warning</span>
+      </div>
+    </aside>
+
+    <main class="workspace">
+      <section id="global-warnings" class="warning-stack" aria-live="polite"></section>
+
+      <section class="layer-header">
+        <div>
+          <p id="layer-node-name" class="eyebrow">Layer</p>
+          <h2 id="layer-name">Loading keymap…</h2>
+        </div>
+        <div class="layer-metrics">
+          <span id="key-count" class="metric">— keys</span>
+          <span id="layer-health" class="health-badge">Waiting</span>
+        </div>
+      </section>
+
+      <section id="layer-warnings" class="warning-stack" aria-live="polite"></section>
+
+      <section class="keyboard-panel" aria-label="Physical keyboard layout">
+        <div id="keyboard-scroll" class="keyboard-scroll">
+          <svg id="keyboard" role="img" aria-labelledby="keyboard-title"></svg>
+        </div>
+      </section>
+
+      <section id="overflow-section" class="overflow-section" hidden>
+        <div class="overflow-heading">
+          <div>
+            <p class="eyebrow">Outside the physical layout</p>
+            <h3>Overflow bindings</h3>
+          </div>
+          <span id="overflow-count" class="count-pill"></span>
+        </div>
+        <div id="overflow-list" class="overflow-list"></div>
+      </section>
+    </main>
+  </div>
+
+  <template id="warning-template">
+    <div class="warning-message"><span aria-hidden="true">!</span><p></p></div>
+  </template>
+
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

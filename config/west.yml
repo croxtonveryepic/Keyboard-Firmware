@@ -4,17 +4,10 @@ manifest:
       url-base: https://github.com/zmkfirmware
     - name: refil
       url-base: https://github.com/refil
-    - name: urob
-      url-base: https://github.com/urob
   projects:
     - name: zmk
       remote: refil
       revision: adv360-z3.5-2
       import: app/west.yml
-    # Provides &snake_word (zmk,behavior-auto-layer). Pin tracks the fork's ZMK
-    # base; v0.2 verified against Zephyr 3.5 (adv360-z3.5-2).
-    - name: zmk-auto-layer
-      remote: urob
-      revision: v0.2
   self:
     path: config
