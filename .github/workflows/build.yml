@@ -2,28 +2,51 @@ on: [push, pull_request, workflow_dispatch]
 
 name: Build
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   build:
     runs-on: ubuntu-latest
     container:
       image: zmkfirmware/zmk-build-arm:stable
-    name: Build (Legacy)
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - keyboard: adv360
+            variant: legacy
+            manifest: config/west.yml
+            artifact: firmware-no-clique
+          - keyboard: adv360
+            variant: clique
+            manifest: config/west.yml
+            artifact: firmware-clique
+          - keyboard: glove80
+            variant: clique
+            manifest: config/glove80/west.yml
+            artifact: firmware-glove80
+    name: Build (${{ matrix.keyboard }}, ${{ matrix.variant }})
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify Glove80 keymap
+        run: node bin/sync_glove80.mjs --check
+      - name: Test keyboard mapping
+        run: node --test bin/test/*.test.mjs
+      - name: Verify saved comparison
+        run: node visualizer/build-comparison.mjs --check
+      - name: Test keymap visualizer
+        run: node --test visualizer/test/*.test.mjs
       - name: Get version data
-        id: get_info
-        run: |
-          timestamp=$(date +"%Y%m%d%H%M")
-          commit=$(echo "${{ github.sha }}" | cut -c1-7)
-          file_prefix=$timestamp-$commit
-          branch_name=$(echo "${{ github.ref }}" | awk -F'/' '{print $3}' | cut -c1-4)
-          echo "file_prefix=$file_prefix" >> $GITHUB_OUTPUT
-          bin/get_version.sh $branch_name $commit
+        run: bash bin/get_version.sh "$(echo "$GITHUB_REF_NAME" | cut -c1-4)" "$(echo "$GITHUB_SHA" | cut -c1-7)" "${{ matrix.variant }}"
       - name: Cache west modules
         uses: actions/cache@v4
-        env:
-          cache-name: cache-zephyr-modules
         with:
           path: |
             modules/
@@ -31,87 +54,28 @@ jobs:
             zephyr/
             bootloader/
             zmk/
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('manifest-dir/west.yml') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+          key: ${{ runner.os }}-${{ matrix.keyboard }}-west-${{ hashFiles(matrix.manifest) }}
       - name: West Init
-        run: west init -l config
-      - name: West Update
-        run: west update
-      - name: West Zephyr export
-        run: west zephyr-export
-      - name: West Build (left)
-        run: west build -s zmk/app -d build/left -b adv360_left -- -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
-      - name: Adv360 Left Kconfig file
-        run: grep -vE '(^#|^$)' build/left/zephyr/.config
-      - name: West Build (right)
-        run: west build -s zmk/app -d build/right -b adv360_right -- -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
-      - name: Adv360 Right Kconfig file
-        run: grep -vE '(^#|^$)' build/right/zephyr/.config
-      - name: Rename zmk.uf2
-        run: cp build/left/zephyr/zmk.uf2 ${{ steps.get_info.outputs.file_prefix }}-left.uf2 && cp build/right/zephyr/zmk.uf2 ${{ steps.get_info.outputs.file_prefix }}-right.uf2
-      - name: Archive (Adv360)
-        uses: actions/upload-artifact@v4
-        with:
-          name: firmware-no-clique
-          path: |
-            ${{ steps.get_info.outputs.file_prefix }}-left.uf2
-            ${{ steps.get_info.outputs.file_prefix }}-right.uf2
-  build-clique:
-    runs-on: ubuntu-latest
-    container:
-      image: zmkfirmware/zmk-build-arm:stable
-    name: Build (Clique)
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Get version data
-        id: get_info
         run: |
-          timestamp=$(date +"%Y%m%d%H%M")
-          commit=$(echo "${{ github.sha }}" | cut -c1-7)
-          file_prefix=$timestamp-$commit
-          branch_name=$(echo "${{ github.ref }}" | awk -F'/' '{print $3}' | cut -c1-4)
-          echo "file_prefix=$file_prefix" >> $GITHUB_OUTPUT
-          bin/get_version.sh $branch_name $commit clique
-      - name: Cache west modules
-        uses: actions/cache@v4
-        env:
-          cache-name: cache-zephyr-modules
-        with:
-          path: |
-            modules/
-            tools/
-            zephyr/
-            bootloader/
-            zmk/
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('manifest-dir/west.yml') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-      - name: West Init
-        run: west init -l config
+          mkdir -p manifest-dir
+          cp "${{ matrix.manifest }}" manifest-dir/west.yml
+          west init -l manifest-dir
       - name: West Update
         run: west update
       - name: West Zephyr export
         run: west zephyr-export
-      - name: West Build (left)
-        run: west build -s zmk/app -d build/left -b adv360_left -S studio-rpc-usb-uart -- -DZMK_CONFIG="${GITHUB_WORKSPACE}/config" -DCONFIG_ZMK_STUDIO=y
-      - name: Adv360 Left Kconfig file
-        run: grep -vE '(^#|^$)' build/left/zephyr/.config
-      - name: West Build (right)
-        run: west build -s zmk/app -d build/right -b adv360_right -- -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
-      - name: Adv360 Right Kconfig file
-        run: grep -vE '(^#|^$)' build/right/zephyr/.config
-      - name: Rename zmk.uf2
-        run: cp build/left/zephyr/zmk.uf2 ${{ steps.get_info.outputs.file_prefix }}-left.uf2 && cp build/right/zephyr/zmk.uf2 ${{ steps.get_info.outputs.file_prefix }}-right.uf2
-      - name: Archive (Adv360)
+      - name: Build firmware
+        env:
+          KEYBOARD: ${{ matrix.keyboard }}
+          VARIANT: ${{ matrix.variant }}
+          BUILD_RIGHT: 'true'
+          COMMIT: ${{ github.sha }}
+        run: |
+          export COMMIT="${COMMIT:0:7}"
+          bash bin/build.sh
+      - name: Archive firmware
         uses: actions/upload-artifact@v4
         with:
-          name: firmware-clique
-          path: |
-            ${{ steps.get_info.outputs.file_prefix }}-left.uf2
-            ${{ steps.get_info.outputs.file_prefix }}-right.uf2
+          name: ${{ matrix.artifact }}
+          path: firmware/*.uf2
+          if-no-files-found: error

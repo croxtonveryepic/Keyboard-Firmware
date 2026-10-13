@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8f4">
+  <meta name="description" content="Compare your Advantage 360 Pro and Glove80 keymaps side by side. Explore seven layers, relocated media keys, adapted thumb clusters, and hardware controls.">
+  <title>Advantage 360 Pro × Glove80 — layout comparison</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar"><a href="#" class="wordmark"><span class="mark">⌘</span> KEYMAP / COMPARE</a><span class="top-note">YOUR MAIN KEYBOARD + YOUR BACKUP</span></header>
+    <main>
+      <section class="intro">
+        <div><p class="eyebrow">ONE LAYOUT. TWO KEYBOARDS.</p><h1>Same fingers.<br><span>A different shape.</span></h1><p class="lede">Your Advantage 360 Pro layout, carried over to the Glove80. See exactly what stays familiar and where the keys move.</p></div>
+        <div class="facts" aria-label="Comparison summary"><div><strong>76</strong><span>source keys mapped</span></div><div><strong>+4</strong><span>extra Glove80 keys</span></div><div><strong>7</strong><span>matching layers</span></div></div>
+      </section>
+      <section class="workspace" aria-label="Interactive layout comparison">
+        <div class="toolbar"><div><span class="eyebrow">EXPLORE A LAYER</span><div id="layers" class="tabs" aria-label="Keyboard layer"></div></div><div class="options"><label><input id="emphasize" type="checkbox" checked> Emphasize changes</label><label><input id="inherited" type="checkbox" checked> Show inherited keys</label></div></div>
+        <div class="legend" aria-label="Key color legend"><span><i class="dot media"></i> Media moved</span><span><i class="dot thumb"></i> Thumb cluster</span><span><i class="dot extra"></i> Added keys</span><span><i class="dot hardware"></i> Hardware adapted</span><span class="legend-hint">Select a key to trace its match ↗</span></div>
+        <div class="boards">
+          <article class="board-card"><div class="board-heading"><div><p class="eyebrow">YOUR PRIMARY</p><h2>Advantage 360 Pro</h2></div><span class="key-count">76 keys</span></div><p class="board-description">Five main rows · tall lower thumb keys</p><svg id="advantage" class="keyboard" role="group" aria-label="Advantage 360 Pro keymap" viewBox="-30 0 1860 940"></svg><div class="board-caption"><span>Kinesis</span><span id="adv-layer">Base layer</span></div></article>
+          <article class="board-card glove-card"><div class="board-heading"><div><p class="eyebrow">YOUR BACKUP</p><h2>Glove80</h2></div><span class="key-count">80 keys</span></div><p class="board-description">An extra top row · two rows of three thumb keys</p><svg id="glove80" class="keyboard" role="group" aria-label="Glove80 keymap" viewBox="-30 0 1860 940"></svg><div class="board-caption"><span>MoErgo</span><span id="glove-layer">Base layer</span></div></article>
+        </div>
+        <div class="trace" aria-live="polite"><div class="trace-title"><span class="trace-icon">↔</span><div><strong id="trace-heading">Find a key on both keyboards</strong><p id="trace-note">Hover, focus, or select a key. Its counterpart lights up on the other layout.</p></div></div><div id="trace-bindings" class="trace-bindings"></div><button id="clear" class="clear-button" hidden aria-label="Clear selected key">Clear ×</button></div>
+        <p class="diagram-note">Physical key positions are shown at the same key-unit scale. Faint labels inherit from Base; Digits inherits from Plain. Caps Snake is previewed over Base.</p>
+      </section>
+      <section class="differences" aria-labelledby="changes-title"><div class="section-heading"><div><p class="eyebrow">THE ADAPTATION</p><h2 id="changes-title">What changes when you switch?</h2></div><p>The letters, modifier fingers, layer numbers, and lower thumb functions stay familiar.</p></div>
+        <div class="table-scroll"><table><thead><tr><th scope="col">Area</th><th scope="col">Advantage 360 Pro</th><th scope="col">Glove80</th></tr></thead><tbody>
+          <tr data-category="media"><th scope="row"><button class="row-focus" data-filter="media"><i class="dot media"></i> Media keys ↗</button></th><td>Mute, volume, and playback in the extra inner column of each keywell.</td><td>The same six keys move to the extra top row: Mute, Vol+, Vol− on the left; Previous, Next, Play on the right.</td></tr>
+          <tr data-category="thumb"><th scope="row"><button class="row-focus" data-filter="thumb"><i class="dot thumb"></i> Thumb clusters ↗</button></th><td>Upper pairs: <kbd>/</kbd> <kbd>[</kbd> and <kbd>]</kbd> <kbd>`</kbd>. Minus and Equal sit below them. Tall lower keys hold Tab, Space, Backspace, and Enter.</td><td>Upper left: <kbd>/</kbd> <kbd>[</kbd> <kbd>−</kbd>. Upper right: <kbd>=</kbd> <kbd>]</kbd> <kbd>`</kbd>. Lower left: Tab/Fn, Space/Mouse, Esc. Lower right: Del, Backspace, Enter.</td></tr>
+          <tr data-category="extra"><th scope="row"><button class="row-focus" data-filter="extra"><i class="dot extra"></i> Four extra keys ↗</button></th><td>There are no corresponding physical keys.</td><td>F11–F14 on the top row in Base, Plain, and Digits. Transparent in Function, Mouse, and Caps Snake; disabled in Meta.</td></tr>
+          <tr data-category="hardware"><th scope="row"><button class="row-focus" data-filter="hardware"><i class="dot hardware"></i> LED & status controls ↗</button></th><td>Meta offers separate backlight controls. The battery peek on the Enter thumb lasts while held.</td><td>Meta uses RGB toggle and brightness controls. Battery/status keys use MoErgo's native status display for about ten seconds after a press.</td></tr>
+          <tr><th scope="row">Bootloader access</th><td>Hold Meta and press Volume Up for the left half, or Next Track for the right half.</td><td>The same Meta combinations work, with Volume Up and Next Track now in the top row. The G-position key still unlocks Studio.</td></tr>
+          <tr><th scope="row">Home-row mods & layers</th><td>GUI, Alt, Ctrl, Shift on S, N, R, T; mirrored on E, I, O, C. Tab holds Function and Space holds Mouse.</td><td>The same fingers, timing, and layer taps. Hold-trigger positions are remapped to the Glove80. Plain, Digits, and caps-snake tap/double-tap behavior are carried over.</td></tr>
+        </tbody></table></div>
+        <button id="reset-filter" class="reset-filter" hidden>Show all changes ↗</button>
+      </section>
+      <footer><span>Built from your actual keymap files · seven active layers</span><span>Geometry: Advantage config + <a href="https://github.com/moergo-sc/zmk/blob/ce69e85f585c724142aae37ddf8a7e019ff19e93/app/boards/arm/glove80/glove80-layouts.dtsi" target="_blank" rel="noreferrer">MoErgo board definition ↗</a></span></footer>
+    </main>
+  </div>
+</body>
+</html>

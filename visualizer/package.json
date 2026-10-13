@@ -4,6 +4,8 @@
   "type": "module",
   "scripts": {
     "start": "node server.mjs",
+    "compare": "node build-comparison.mjs",
+    "compare:check": "node build-comparison.mjs --check",
     "test": "node --test"
   },
   "engines": {
