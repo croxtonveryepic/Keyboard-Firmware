@@ -1,8 +1,15 @@
-## Advantage 360 Pro PR template
+## Keyboard configuration change
 
-### What's changed:
+### What changes on the Advantage 360 Pro and Glove80?
 
-### Why has this change been implemented:
+### Why is this change needed?
 
-### What (if any) actions must a user take after this change:
+### Validation
+
+- Generated Glove80 keymap and saved comparison are current.
+- Mapping and visualizer tests pass.
+- Firmware builds pass for the affected keyboards.
+- Physical keyboard testing:
+
+### What must a user do after this change?
 
